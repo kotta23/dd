@@ -10,7 +10,7 @@ translator = Translator()
 def recognize_speech_from_mic():
     global recognizer
     print('espeak "please say something.."')
-    os.system('''arecord -f S16_LE -d 5 -r 44100 --device="hw:1,0"  test.wav''')
+    #os.system('''arecord -f S16_LE -d 5 -r 44100 --device="hw:1,0"  test.wav''')
     with sr.WavFile("test.wav") as source:              # use "test.wav" as the audio source
         audio = recognizer.record(source) 
     print('espeak "decodeing"')
@@ -37,7 +37,7 @@ def recognize_speech_from_mic():
 
 
 
-#words_to_say = recognize_speech_from_mic().get('transcription')
+words_to_say = recognize_speech_from_mic().get('transcription')
 # from image_viewer_thread import ImageViewer
 # image_viewer = ImageViewer()
 # image_viewer.start()

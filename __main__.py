@@ -85,6 +85,9 @@ while True:
             
             myobj = gTTS(text=words_to_say, lang='ar', slow=False)
             myobj.save("welcome.mp3")
+            import os
+
+            os.system('mpg321 welcome.mp3 ')
             #playsound("welcome.mp3")
         except requests.exceptions.ConnectionError:
             print("fail to communicate")   
