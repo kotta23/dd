@@ -74,14 +74,18 @@ while True:
         #     print("fail to communicate")
     elif b4.is_pressed:
         try:
+            camera.start_preview()
+            sleep(5)
+            camera.capture('ai.png')
+            camera.stop_preview()
             words_to_say = ai_cap()
             if words_to_say in dict:
-                words_to_say=dict[words_to_say]
+                words_to_say=arabic_reshaper.reshape(str(dict[words_to_say]))
             print(words_to_say)
             
             myobj = gTTS(text=words_to_say, lang='ar', slow=False)
             myobj.save("welcome.mp3")
-            playsound("welcome.mp3")
+            #playsound("welcome.mp3")
         except requests.exceptions.ConnectionError:
             print("fail to communicate")   
     if not words_to_say is None and len(words_to_say) > 0:

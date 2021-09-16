@@ -29,4 +29,5 @@ def recognize_speech_from_mic():
         # speech was unintelligible
         response["error"] = "Unable to recognize speech"
     return response
+#words_to_say = recognize_speech_from_mic().get('transcription')
 
