@@ -16,6 +16,8 @@ from t import dict
 import requests
 from gtts import gTTS
 from playsound import playsound
+import arabic_reshaper
+from bidi.algorithm import get_display
 
 print("before camera")
 camera = PiCamera()
@@ -43,6 +45,7 @@ while True:
     
     words_to_say = ""
     if b1.is_pressed:
+        ar = False
         print("b1 is pressed")
         camera.start_preview()
         sleep(5)
@@ -55,8 +58,9 @@ while True:
         #os.remove(".tmp.png")
     elif b2.is_pressed:
         print("b2 is pressed")
-         
+
         words_to_say = recognize_speech_from_mic().get('transcription')
+        print("*"*40,words_to_say)
         ar = False
     elif b3.is_pressed:
         print("b3 is pressed")
@@ -74,13 +78,14 @@ while True:
         #     print("fail to communicate")
     elif b4.is_pressed:
         try:
+            ar = True
             camera.start_preview()
-            sleep(5)
+            sleep(4)
             camera.capture('ai.png')
             camera.stop_preview()
             words_to_say = ai_cap()
             if words_to_say in dict:
-                words_to_say=arabic_reshaper.reshape(str(dict[words_to_say]))
+                words_to_say=dict[words_to_say]
             print(words_to_say)
             
             myobj = gTTS(text=words_to_say, lang='ar', slow=False)
@@ -90,8 +95,10 @@ while True:
             os.system('mpg321 welcome.mp3 ')
             #playsound("welcome.mp3")
         except requests.exceptions.ConnectionError:
-            print("fail to communicate")   
+            print("fail to communicate")
+
     if not words_to_say is None and len(words_to_say) > 0:
+        #words_to_say = words_to_say.decode('utf-8')
         print("the word is      :",words_to_say)
         image_viewer.add_cmd(words_to_say ,ar)
         print("press any key again..")

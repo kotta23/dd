@@ -7,7 +7,8 @@ import cv2
 from PIL import ImageFont, ImageDraw, Image
 
 # Load image based on OLED display height.  Note that image is converted to 1 bit color.
-
+import arabic_reshaper
+from bidi.algorithm import get_display
     
 class ImageViewer(Thread):
     def __init__(self , ar=False):
@@ -33,6 +34,7 @@ class ImageViewer(Thread):
                                 image = np.full((64,128,3), 255,np.uint8 )
                                 cv2.putText(image,word,(30,30), cv2.FONT_HERSHEY_SIMPLEX,1,(0,0,0),2 )
                             else:
+                                word = get_display(arabic_reshaper.reshape(str(word)))
                                 image = np.full((64,128,3), 255,np.uint8 )
                                 cv2_im_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
                                 pil_im = Image.fromarray(cv2_im_rgb)
